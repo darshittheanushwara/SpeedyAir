@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using SpeedyAir.Interface;
 using SpeedyAir.Service;
+using SpeedyAir.Services;
 
 namespace SpeedyAir
 {
@@ -11,6 +12,7 @@ namespace SpeedyAir
             // Setting up dependency injection container using ServiceCollection
             var serviceProvider = new ServiceCollection()
             .AddScoped<IFlightSchedulesRepository, FlightSchedulesRepository>()
+            .AddScoped<IOrderScheduler, OrderScheduler>()
             .AddScoped<App>()
             .BuildServiceProvider();
 

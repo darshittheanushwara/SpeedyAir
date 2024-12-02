@@ -1,4 +1,6 @@
-﻿namespace SpeedyAir.Model
+﻿using System.Collections.Generic;
+
+namespace SpeedyAir.Model
 {
     public class Flights
     {
@@ -7,6 +9,7 @@
         public string Arrival { get; set; }
         public int Day { get; set; }
 
+        public List<Order> Orders { get; set; } = new List<Order>();
 
         public override string ToString()
         {
