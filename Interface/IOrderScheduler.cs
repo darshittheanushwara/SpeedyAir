@@ -11,5 +11,7 @@ namespace SpeedyAir.Interface
         void AssignOrdersToFlights(List<Order> orders, List<Flights> flights);
         // display orders along with their associated flight information
         void DisplayOrders(List<Order> orders);
+        void DisplayOrders(List<Order> orders, int FlightNumber);
+
     }
 }

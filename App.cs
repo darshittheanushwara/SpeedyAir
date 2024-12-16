@@ -1,6 +1,5 @@
 ﻿using SpeedyAir.Interface;
 using System;
-using System.Linq;
 
 namespace SpeedyAir
 {
@@ -19,7 +18,7 @@ namespace SpeedyAir
         {
             // Fetching flight schedules
             var flights = _flightSchedulesRepository.GetSchedules();
-            
+
             HorizontalLine();
             // Delegating the display logic to the repository
             _flightSchedulesRepository.DisplaySchedules(flights);
@@ -34,6 +33,9 @@ namespace SpeedyAir
                 // Assign Orders to Flights and Display Itineraries
                 _orderScheduler.AssignOrdersToFlights(orders, flights);
                 _orderScheduler.DisplayOrders(orders);
+                HorizontalLine();
+                Console.WriteLine("Displaying Order For Flights 3");
+                _orderScheduler.DisplayOrders(orders, 3);
             }
             HorizontalLine();
 

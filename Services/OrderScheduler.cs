@@ -29,8 +29,12 @@ namespace SpeedyAir.Services
                 var ordersDictionary = JsonConvert.DeserializeObject<Dictionary<string, Order>>(json);
                 return ordersDictionary.Select(Od =>
                 {
+
                     var order = Od.Value;
+                    Od.Value.Service = Od.Value.Service == null ? "regular" : Od.Value.Service;
                     order.OrderId = Od.Key;
+                    order.Service = Od.Value.Service;
+                    order.ServiceID = (int)Enum.Parse<ServiceTypes>(Od.Value.Service.Replace("-", "").ToLower());
                     return order;
                 }).ToList();
             }
@@ -40,7 +44,7 @@ namespace SpeedyAir.Services
                 Console.WriteLine("Order not found!");
                 return null;
             }
-            
+
         }
 
         public void AssignOrdersToFlights(List<Order> orders, List<Flights> flights)
@@ -69,14 +73,14 @@ namespace SpeedyAir.Services
         public void DisplayOrders(List<Order> orders)
         {
             // Order orders by FlightNumber and display details for each order
-            foreach (var item in orders.OrderBy(A => A.FlightNumber))
+            foreach (var item in orders.OrderBy(A => A.ServiceID))
             {
                 if (item.FlightNumber.HasValue)
                 {
                     var flight = item.AssignedFlight;
                     if (flight != null)
                     {
-                        Console.WriteLine($"order: {item.OrderId}, flightNumber: {item.FlightNumber}, departure: {flight.Departure}, arrival: {flight.Arrival}, day: {flight.Day}");
+                        Console.WriteLine($"order: {item.OrderId}, flightNumber: {item.FlightNumber}, departure: {flight.Departure}, arrival: {flight.Arrival}, day: {flight.Day}, Service:{item.Service}");
                     }
                 }
                 else
@@ -86,5 +90,17 @@ namespace SpeedyAir.Services
                 }
             }
         }
+
+        public void DisplayOrders(List<Order> orders, int FlightNumber)
+        {
+            orders = orders.Where(A => A.FlightNumber == FlightNumber).ToList();
+            DisplayOrders(orders);
+        }
+    }
+    public enum ServiceTypes
+    {
+        sameday,
+        nextday,
+        regular,
     }
 }
